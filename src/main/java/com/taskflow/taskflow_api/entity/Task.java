@@ -1,6 +1,8 @@
 package com.taskflow.taskflow_api.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tasks")
@@ -10,24 +12,30 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Title is required")
     @Column(name = "title", nullable = false)
     private String title;
 
+    @NotBlank(message = "Description is required")
     @Column(name = "description")
     private String description;
 
+    @NotNull(message = "User is required")
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @NotNull(message = "Category is required")
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @NotNull(message = "Priority is required")
     @ManyToOne
     @JoinColumn(name = "priority_id", nullable = false)
     private Priority priority;
 
+    @NotNull(message = "Task status is required")
     @ManyToOne
     @JoinColumn(name = "status_id", nullable = false)
     private TaskStatus taskStatus;

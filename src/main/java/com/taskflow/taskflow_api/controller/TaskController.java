@@ -2,6 +2,9 @@ package com.taskflow.taskflow_api.controller;
 
 import com.taskflow.taskflow_api.entity.Task;
 import com.taskflow.taskflow_api.service.TaskService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,34 +22,36 @@ public class TaskController {
 
 //    GET /tasks
     @GetMapping
-    public List<Task> getAll(){
-        return taskService.findAll();
+    public ResponseEntity<List<Task>> getAll(){
+        List<Task> tasks = taskService.findAll();
+        return ResponseEntity.ok(tasks);
     }
 
 //    GET /tasks/{id}
     @GetMapping("/{id}")
-    public Optional<Task> findById(@PathVariable Long id){
-        return taskService.findById(id);
+    public ResponseEntity<Task> findById(@PathVariable Long id){
+        Task task = taskService.findById(id);
+        return ResponseEntity.ok(task);
     }
 
 //    POST /tasks
     @PostMapping
-    public Task save(@RequestBody Task task){
-        return taskService.save(task);
+    public ResponseEntity<Task> save(@Valid @RequestBody Task task){
+        Task savedTask = taskService.save(task);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
     }
 
 //    PUT /tasks/{id}
     @PutMapping("/{id}")
-    public Task update(@PathVariable Long id, @RequestBody Task task){
-        return taskService.update(id, task);
+    public ResponseEntity<Task> update(@PathVariable Long id, @Valid @RequestBody Task task){
+        Task updatedTask = taskService.update(id, task);
+        return ResponseEntity.ok(updatedTask);
     }
 
 //    DELETE /tasks/{id}
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         taskService.delete(id);
+        return ResponseEntity.noContent().build();
     }
-
-
-
 }

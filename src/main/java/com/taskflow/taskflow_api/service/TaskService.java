@@ -1,6 +1,7 @@
 package com.taskflow.taskflow_api.service;
 
 import com.taskflow.taskflow_api.entity.Task;
+import com.taskflow.taskflow_api.exception.ResourceNotFoundException;
 import com.taskflow.taskflow_api.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,9 @@ public class TaskService {
 
 
 //    GetById
-    public Optional<Task> findById(Long id) {
-        return taskRepository.findById(id);
+    public Task findById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
     }
 
 //    Post
@@ -36,7 +38,7 @@ public class TaskService {
 
     public Task update(Long id, Task updatedTask) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
 
         task.setTitle(updatedTask.getTitle());
         task.setDescription(updatedTask.getDescription());
@@ -51,7 +53,7 @@ public class TaskService {
 //    Delete
     public void delete(Long id) {
         Task task = taskRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Task not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found"));
 
         taskRepository.delete(task);
     }
