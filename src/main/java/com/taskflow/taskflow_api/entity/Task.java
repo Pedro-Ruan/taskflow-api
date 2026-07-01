@@ -17,7 +17,7 @@ public class Task {
     private String title;
 
     @NotBlank(message = "Description is required")
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
     @NotNull(message = "User is required")
@@ -31,13 +31,13 @@ public class Task {
     private Category category;
 
     @NotNull(message = "Priority is required")
-    @ManyToOne
-    @JoinColumn(name = "priority_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "priority", nullable = false)
     private Priority priority;
 
     @NotNull(message = "Task status is required")
-    @ManyToOne
-    @JoinColumn(name = "status_id", nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status_id", nullable = false)
     private TaskStatus taskStatus;
 
     public Task(){
