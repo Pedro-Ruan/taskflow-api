@@ -37,7 +37,7 @@ public class Task {
 
     @NotNull(message = "Task status is required")
     @Enumerated(EnumType.STRING)
-    @Column(name = "status_id", nullable = false)
+    @Column(name = "status", nullable = false)
     private TaskStatus taskStatus;
 
     public Task(){
